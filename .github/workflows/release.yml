@@ -42,9 +42,6 @@ jobs:
         with:
           command: build
           args: --release -v
-      - name: List files
-        if: matrix.name == 'windows-amd64'
-        run: ls -laR release
       - name: List files Pwsh
         if: matrix.name == 'windows-amd64'
         shell: pwsh
