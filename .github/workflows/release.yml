@@ -66,6 +66,8 @@ jobs:
           type: 'tar'
           directory: artifacts
           filename: libed25519_bip32_${{ matrix.name }}.tar.gz
+          # prevents error: tar: .: file changed as we read it
+          exclusions: .
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
