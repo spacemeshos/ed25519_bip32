@@ -45,22 +45,30 @@ jobs:
         with:
           command: build
           args: --release -v
-      - name: Create artifacts
+      - name: Prepare files
         if: matrix.name != 'windows-amd64'
         run: |
           mkdir artifacts
           mv LICENSE ed25519_bip32.h target/release/libed25519_bip32.${{ matrix.extension }} artifacts
-          cd artifacts
-          tar -czf ${{ matrix.artifact }} *
-      - name: Create artifacts Windows
+          #cd artifacts
+          #tar -czf ${{ matrix.artifact }} *
+      - name: Prepare files Windows
         if: matrix.name == 'windows-amd64'
         run: |
           mkdir artifacts
           Move-Item -Path LICENSE, ed25519_bip32.h -Destination artifacts
           # lib filename is different on windows for some reason
           Move-Item -Path target/release/ed25519_bip32.dll -Destination artifacts/libed25519_bip32.dll
-          Compress-Archive -Path artifacts/* -Destination {{ matrix.artifact }}
+          #Compress-Archive -Path artifacts/* -Destination {{ matrix.artifact }}
+      - name: Create release artifact
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: 'tar'
+          directory: artifacts
+          filename: libed25519_bip32_${{ matrix.name }}.tar.gz
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/{{ matrix.artifact }}
+          files: artifacts/libed25519_bip32_${{ matrix.name }}.tar.gz
+          # temporary
+          tag_name: v1.0.1
