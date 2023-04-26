@@ -65,12 +65,14 @@ jobs:
         with:
           type: 'tar'
           path: artifacts
+          # exclude dirname from archive
+          custom: -C artifacts
           filename: libed25519_bip32_${{ matrix.name }}.tar.gz
           # prevents error: tar: .: file changed as we read it
           #exclusions: .
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/libed25519_bip32_${{ matrix.name }}.tar.gz
+          files: libed25519_bip32_${{ matrix.name }}.tar.gz
           # temporary
           tag_name: v1.0.1
