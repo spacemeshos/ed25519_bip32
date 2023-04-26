@@ -64,10 +64,10 @@ jobs:
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: 'tar'
-          directory: artifacts
+          path: artifacts
           filename: libed25519_bip32_${{ matrix.name }}.tar.gz
           # prevents error: tar: .: file changed as we read it
-          exclusions: .
+          #exclusions: .
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
