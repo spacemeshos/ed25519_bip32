@@ -52,22 +52,23 @@ jobs:
           mv LICENSE ed25519_bip32.h target/release/libed25519_bip32.${{ matrix.extension }} artifacts
           cd artifacts
           tar -czf libed25519_bip32_${{ matrix.name }}.tar.gz *
+          mv libed25519_bip32_${{ matrix.name }}.tar.gz ..
       - name: Prepare files Windows
         if: matrix.name == 'windows-amd64'
         run: |
           mkdir artifacts
-          move LICENSE ./artifacts
-          move ed25519_bip32.h ./artifacts
-          #Move-Item -Path LICENSE, ed25519_bip32.h -Destination artifacts
+          #move LICENSE ./artifacts
+          #move ed25519_bip32.h ./artifacts
+          Move-Item -Path LICENSE, ed25519_bip32.h -Destination artifacts
           # lib filename is different on windows for some reason
-          move target/release/ed25519_bip32.dll ./artifacts/libed25519_bip32.dll
-          #Move-Item -Path target/release/ed25519_bip32.dll -Destination artifacts/libed25519_bip32.dll
-          #Compress-Archive -Path artifacts/* -Destination {{ matrix.artifact }}
-          cd artifacts
-          tar -czf libed25519_bip32_${{ matrix.name }}.tar.gz *
+          #move target/release/ed25519_bip32.dll ./artifacts/libed25519_bip32.dll
+          Move-Item -Path target/release/ed25519_bip32.dll -Destination artifacts/libed25519_bip32.dll
+          Compress-Archive -Path artifacts/* -Destination {{ matrix.artifact }}
+          #cd artifacts
+          #tar -czf libed25519_bip32_${{ matrix.name }}.tar.gz *
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/libed25519_bip32_${{ matrix.name }}.tar.gz
+          files: ${{ matrix.artifact }}
           # temporary
           tag_name: v1.0.1
