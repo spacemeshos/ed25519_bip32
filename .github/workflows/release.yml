@@ -58,9 +58,9 @@ jobs:
         if: matrix.name == 'windows-amd64'
         run: |
           mkdir artifacts
-          mv LICENSE ed25519_bip32.h artifacts
+          Move-Item -Path LICENSE, ed25519_bip32.h -Destination artifacts
           # lib filename is different on windows for some reason
-          mv target/release/ed25519_bip32.dll artifacts/libed25519_bip32.dll
+          Move-Item -Path target/release/ed25519_bip32.dll -Destination artifacts/libed25519_bip32.dll
           cd artifacts
           # Compress-Archive -Path artifacts/* -Destination libed25519_bip32_${{ matrix.name }}.zip
           tar -czf libed25519_bip32_${{ matrix.name }}.tar.gz *
