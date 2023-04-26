@@ -48,10 +48,21 @@ jobs:
         run: |
           Get-ChildItem -Recurse
       - name: Create artifacts
+        if: matrix.name != 'windows-amd64'
         run: |
           mkdir artifacts
           mv LICENSE ed25519_bip32.h target/release/libed25519_bip32.${{ matrix.extension }} artifacts
           cd artifacts
+          tar -czf libed25519_bip32_${{ matrix.name }}.tar.gz *
+      - name: Create artifacts Windows
+        if: matrix.name == 'windows-amd64'
+        run: |
+          mkdir artifacts
+          mv LICENSE ed25519_bip32.h artifacts
+          # lib filename is different on windows for some reason
+          mv target/release/ed25519_bip32.dll artifacts/libed25519_bip32.dll
+          cd artifacts
+          # Compress-Archive -Path artifacts/* -Destination libed25519_bip32_${{ matrix.name }}.zip
           tar -czf libed25519_bip32_${{ matrix.name }}.tar.gz *
       - name: Release
         uses: softprops/action-gh-release@v1
