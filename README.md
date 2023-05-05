@@ -1,5 +1,7 @@
 # ed25519_wasm
 
+**NOTE: this repository has been moved to https://github.com/spacemeshos/spacemesh-sdk/tree/main/ed25519_bip32**
+
 This repository contains WebAssembly (Wasm) and CFFI bindings for the
 [ed25519-dalek-bip32](https://github.com/jpopesculian/ed25519-dalek-bip32) library. This library is used by [smcli](https://github.com/spacemeshos/smcli), [smapp](https://github.com/spacemeshos/smapp), and other tools to perform BIP32-style HD key derivation using BIP39-style mnemonics.
 
